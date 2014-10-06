@@ -1,0 +1,24 @@
+{
+  "name": "react-card-steps",
+  "version": "0.0.1",
+  "description": "Card-based interface for interactive step-by-step processes/guides",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/irvinebroque/react-card-steps.git"
+  },
+  "keywords": [
+    "react.js",
+    "cards",
+    "swipe.js"
+  ],
+  "author": "Brendan Irvine-Broque",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/irvinebroque/react-card-steps/issues"
+  },
+  "homepage": "https://github.com/irvinebroque/react-card-steps"
+}
