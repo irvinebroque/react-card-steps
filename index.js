@@ -16,7 +16,7 @@ function getStateFromStores() {
     wrapperStyle: {
       width: '400%'
     },
-    cardStyle: {
+    childStyle: {
       display: 'inline-block'
     }
   }
@@ -57,10 +57,12 @@ var ReactCardSteps = React.createClass({
     // need to get the # of steps from react.children.count here
     // then need to push this # to the stepStore
 
+    var childStyle = this.state.childStyle;
+
     var container = React.DOM.div({style: this.state.containerStyle},
       React.DOM.div({style: this.state.wrapperStyle},
         React.Children.map(this.props.children, function(child) {
-          return React.DOM.div({style: {display: "inline-block"}}, React.addons.cloneWithProps(child))
+          return React.DOM.div({style: childStyle}, React.addons.cloneWithProps(child))
         })
       )
     )
