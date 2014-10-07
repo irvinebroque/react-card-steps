@@ -3,6 +3,8 @@
  */
 
 var React = require('react');
+var merge = require('react/lib/merge');
+var EventEmitter = require('events').EventEmitter;
 
 function getSteps(step) {
   return (
@@ -11,6 +13,12 @@ function getSteps(step) {
       step={step}
     />
   );
+}
+
+function getStateFromStores() {
+  return {
+    currentStep: StepStore.getCurrentStep()
+  }
 }
 
 var ReactCardSteps = React.createClass({
@@ -31,14 +39,18 @@ var ReactCardSteps = React.createClass({
   },
 
   getInitialState: function() {
-    return {
-      currentStep: 1
-    }
+    return getStateFromStores();
+  },
+
+  componentDidMount: function() {
+    StepStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    StepStore.removeChangeListener(this._onChange);
   },
 
   render: function() {
-
-    console.log(this.props.stepData);
 
     var steps = this.props.stepData.map(getSteps);
 
@@ -47,8 +59,11 @@ var ReactCardSteps = React.createClass({
         {steps}
       </div>
     )
-  }
+  },
 
+  _onChange: function() {
+    this.setState(getStateFromStores());
+  }
 
 });
 
@@ -70,8 +85,48 @@ var Step = React.createClass({
     return (
       <div>
         this is a step
+        <button onClick={_nextStep}>next</button>
       </div>
     );
+  },
+
+  next: function(event) {
+    console.log('next was clicked');
+  }
+
+});
+
+var CHANGE_EVENT = 'change';
+
+var _stepCounter = 1;
+
+function _nextStep() {
+  _stepCounter += 1;
+}
+
+function _prevStep() {
+  _stepCounter -= 1;
+}
+
+var StepStore = merge(EventEmitter.prototype, {
+
+  emitChange: function() {
+    this.emit(CHANGE_EVENT);
+  },
+
+  /**
+   * @param {function} callback
+   */
+  addChangeListener: function(callback) {
+    this.on(CHANGE_EVENT, callback);
+  },
+
+  removeChangeListener: function(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
+  },
+
+  getCurrentStep: function() {
+    return _stepCounter;
   }
 
 });
