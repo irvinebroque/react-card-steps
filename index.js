@@ -18,7 +18,16 @@ function getSteps(step) {
 
 function getStateFromStores() {
   return {
-    currentStep: StepStore.getCurrentStep()
+    currentStep: StepStore.getCurrentStep(),
+    containerStyle: {
+      overflow: 'hidden'
+    },
+    wrapperStyle: {
+      width: '400%'
+    },
+    cardStyle: {
+      display: 'inline-block'
+    }
   }
 }
 
@@ -55,6 +64,8 @@ var ReactCardSteps = React.createClass({
   componentWillUnmount: function() {
     StepStore.removeChangeListener(this._onChange);
     this.hammer.off('swipeleft', this.swipeLeft);
+
+    delete this.hammer;
   },
 
   render: function() {
@@ -62,8 +73,10 @@ var ReactCardSteps = React.createClass({
     var steps = this.props.stepData.map(getSteps);
 
     return (
-      <div>
-        {steps}
+      <div style={this.state.containerStyle}>
+        <div style={this.state.wrapperStyle}>
+          {steps}
+        </div>
       </div>
     )
   },
