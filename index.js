@@ -14,6 +14,7 @@ function getStateFromStores() {
       overflow: 'hidden'
     },
     wrapperStyle: {
+      // this should equal the # of steps times 100
       width: '400%'
     },
     childStyle: {
@@ -54,9 +55,7 @@ var ReactCardSteps = React.createClass({
 
   render: function() {
 
-    // need to get the # of steps from react.children.count here
-    // then need to push this # to the stepStore
-
+    // Set local variable to the childStyle component state
     var childStyle = this.state.childStyle;
 
     var container = React.DOM.div({style: this.state.containerStyle},
@@ -65,7 +64,12 @@ var ReactCardSteps = React.createClass({
           return React.DOM.div({style: childStyle}, React.addons.cloneWithProps(child))
         })
       )
-    )
+    );
+
+    // get the # of steps from react.children.count
+    var foo = React.Children.count(this.props.children);
+    // then need to push this # to the stepStore
+    console.log(foo);
 
     return React.addons.cloneWithProps(container)
   },
