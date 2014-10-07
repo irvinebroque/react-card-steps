@@ -7,22 +7,6 @@ var merge = require('react/lib/merge');
 var EventEmitter = require('events').EventEmitter;
 var Hammer = require('hammerjs');
 
-function getStateFromStores() {
-  return {
-    currentStep: StepStore.getCurrentStep(),
-    containerStyle: {
-      overflow: 'hidden'
-    },
-    wrapperStyle: {
-      // this should equal the # of steps times 100
-      width: '400%'
-    },
-    childStyle: {
-      display: 'inline-block'
-    }
-  }
-}
-
 var ReactCardSteps = React.createClass({
 
   displayName: 'ReactCardSteps',
@@ -34,7 +18,33 @@ var ReactCardSteps = React.createClass({
   },
 
   getInitialState: function() {
-    return getStateFromStores();
+
+    // get the # of steps from react.children.count
+    var stepCount = React.Children.count(this.props.children);
+    // then need to push this # to the stepStore
+    _setTotalSteps(stepCount);
+
+    var wrapperWidth = stepCount * 100;
+    var childWidth = 100 / stepCount;
+    var currentStep = StepStore.getCurrentStep();
+    var transformPosition = (currentStep - 1) * -100;
+
+    return {
+      currentStep: StepStore.getCurrentStep(),
+      totalSteps: stepCount,
+      containerStyle: {
+        overflow: 'hidden'
+      },
+      wrapperStyle: {
+        // this should equal the # of steps times 100
+        width: wrapperWidth + '%',
+        transform: 'translateX(' + transformPosition + 'em)'
+      },
+      childStyle: {
+        display: 'inline-block',
+        width: childWidth + '%'
+      }
+    }
   },
 
   componentDidMount: function() {
@@ -66,11 +76,6 @@ var ReactCardSteps = React.createClass({
       )
     );
 
-    // get the # of steps from react.children.count
-    var stepCount = React.Children.count(this.props.children);
-    // then need to push this # to the stepStore
-    _setTotalSteps(stepCount);
-
     return React.addons.cloneWithProps(container)
   },
 
@@ -85,7 +90,7 @@ var ReactCardSteps = React.createClass({
   },
 
   _onChange: function() {
-    this.setState(getStateFromStores());
+    this.setState("foo");
   }
 
 });
@@ -206,10 +211,6 @@ var App = React.createClass({
     return {
       stepData: []
     }
-  },
-
-  getInitialState: function() {
-    return getStateFromStores();
   },
 
   render: function() {
