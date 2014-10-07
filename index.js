@@ -67,9 +67,9 @@ var ReactCardSteps = React.createClass({
     );
 
     // get the # of steps from react.children.count
-    var foo = React.Children.count(this.props.children);
+    var stepCount = React.Children.count(this.props.children);
     // then need to push this # to the stepStore
-    console.log(foo);
+    _setTotalSteps(stepCount);
 
     return React.addons.cloneWithProps(container)
   },
@@ -93,7 +93,6 @@ var ReactCardSteps = React.createClass({
 var StepCard = React.createClass({
 
   render: function() {
-    console.log('this should get called when step card gets rendered');
     return (
       <div>
         this is a step
@@ -111,14 +110,29 @@ var StepCard = React.createClass({
 
 var CHANGE_EVENT = 'change';
 
-var _stepCounter = 1;
+var _currentStep = 1;
+var _steps = [];
+
+function _setTotalSteps(count) {
+
+  // set array length to count
+
+  for (var i = 0; i < count; i++) {
+    _steps[i] = i;
+  }
+  return _steps;
+}
+
+function _setCurrentStep(stepNumber) {
+  _currentStep = stepNumber;
+}
 
 function _nextStep() {
-  _stepCounter += 1;
+  _currentStep += 1;
 }
 
 function _prevStep() {
-  _stepCounter -= 1;
+  _currentStep -= 1;
 }
 
 var StepStore = merge(EventEmitter.prototype, {
@@ -139,7 +153,11 @@ var StepStore = merge(EventEmitter.prototype, {
   },
 
   getCurrentStep: function() {
-    return _stepCounter;
+    return _currentStep;
+  },
+
+  getStepCount: function() {
+    return _steps.length;
   }
 
 });
@@ -174,7 +192,6 @@ var exampleSteps = [
 
 
 function getSteps(step) {
-  console.log(step);
   return (
     <StepCard
       key={step.id}
