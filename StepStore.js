@@ -65,6 +65,9 @@ StepStore.dispatchToken = StepDispatcher.register(function(payload) {
   if (action === 'STEP_SET_TOTAL') {
     _setTotalSteps(payload.stepCount);
     StepStore.emitChange();
+  } else if (action === 'STEP_NEXT') {
+    _nextStep();
+    StepStore.emitChange();
   } else {
     console.log("did nothing. i'm lazy")
   }

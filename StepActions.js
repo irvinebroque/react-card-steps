@@ -10,6 +10,15 @@ var StepActions = {
       action: 'STEP_SET_TOTAL',
       stepCount: stepCount
     });
+  },
+
+  nextStep: function() {
+
+    console.log("StepActions -- nextStep got called");
+
+    StepDispatcher.dispatch({
+      action: 'STEP_NEXT'
+    });
   }
 
 };

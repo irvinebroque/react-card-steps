@@ -16,7 +16,7 @@ function getStateFromStores() {
 
   var wrapperWidth = stepCount * 100;
   var childWidth = 100 / stepCount;
-  var transformPosition = (currentStep - 1) * -100;
+  var transformPosition = ((currentStep - 1) / stepCount)  * -100;
 
   return {
     currentStep: currentStep,
@@ -27,7 +27,8 @@ function getStateFromStores() {
     wrapperStyle: {
       // this should equal the # of steps times 100
       width: wrapperWidth + '%',
-      transform: 'translateX(' + transformPosition + 'em)'
+      transform: 'translateX(' + transformPosition + '%)',
+      transition: 'all 2s'
     },
     childStyle: {
       display: 'inline-block',
