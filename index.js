@@ -3,9 +3,38 @@
  */
 
 var React = require('react/addons');
-var merge = require('react/lib/merge');
-var EventEmitter = require('events').EventEmitter;
+var StepStore = require('./StepStore');
+var StepActions = require('./StepActions');
 var Hammer = require('hammerjs');
+
+
+function getStateFromStores() {
+
+  // Get stuff from the store
+  var currentStep = StepStore.getCurrentStep();
+  var stepCount = StepStore.getStepCount();
+
+  var wrapperWidth = stepCount * 100;
+  var childWidth = 100 / stepCount;
+  var transformPosition = (currentStep - 1) * -100;
+
+  return {
+    currentStep: currentStep,
+    stepCount: stepCount,
+    containerStyle: {
+      overflow: 'hidden'
+    },
+    wrapperStyle: {
+      // this should equal the # of steps times 100
+      width: wrapperWidth + '%',
+      transform: 'translateX(' + transformPosition + 'em)'
+    },
+    childStyle: {
+      display: 'inline-block',
+      width: childWidth + '%'
+    }
+  }
+}
 
 var ReactCardSteps = React.createClass({
 
@@ -21,30 +50,13 @@ var ReactCardSteps = React.createClass({
 
     // get the # of steps from react.children.count
     var stepCount = React.Children.count(this.props.children);
-    // then need to push this # to the stepStore
-    _setTotalSteps(stepCount);
+    // then need to push this # to the stepStore using an action
+    StepActions.setTotalSteps(stepCount);
+    // var foo = StepStore.getStepCount();
+    // console.log(foo);
+    this.setState({totalSteps: stepCount});
 
-    var wrapperWidth = stepCount * 100;
-    var childWidth = 100 / stepCount;
-    var currentStep = StepStore.getCurrentStep();
-    var transformPosition = (currentStep - 1) * -100;
-
-    return {
-      currentStep: StepStore.getCurrentStep(),
-      totalSteps: stepCount,
-      containerStyle: {
-        overflow: 'hidden'
-      },
-      wrapperStyle: {
-        // this should equal the # of steps times 100
-        width: wrapperWidth + '%',
-        transform: 'translateX(' + transformPosition + 'em)'
-      },
-      childStyle: {
-        display: 'inline-block',
-        width: childWidth + '%'
-      }
-    }
+    return getStateFromStores();
   },
 
   componentDidMount: function() {
@@ -90,143 +102,9 @@ var ReactCardSteps = React.createClass({
   },
 
   _onChange: function() {
-    this.setState("foo");
+    this.setState(getStateFromStores());
   }
 
 });
 
-var StepCard = React.createClass({
-
-  render: function() {
-    return (
-      <div>
-        this is a step
-        <button onClick={this.next}>next</button>
-      </div>
-    );
-  },
-
-  next: function(event) {
-    _nextStep();
-    console.log('next was clicked');
-  }
-
-});
-
-var CHANGE_EVENT = 'change';
-
-var _currentStep = 1;
-var _steps = [];
-
-function _setTotalSteps(count) {
-
-  // set array length to count
-
-  for (var i = 0; i < count; i++) {
-    _steps[i] = i;
-  }
-  return _steps;
-}
-
-function _setCurrentStep(stepNumber) {
-  _currentStep = stepNumber;
-}
-
-function _nextStep() {
-  _currentStep += 1;
-}
-
-function _prevStep() {
-  _currentStep -= 1;
-}
-
-var StepStore = merge(EventEmitter.prototype, {
-
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
-  },
-
-  /**
-   * @param {function} callback
-   */
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
-  },
-
-  getCurrentStep: function() {
-    return _currentStep;
-  },
-
-  getStepCount: function() {
-    return _steps.length;
-  }
-
-});
-
-
-
-// -------------
-// Example Stuff
-// -------------
-
-var exampleSteps = [
-  {
-    id: 1,
-    text: "step 1"
-  },
-  {
-    id: 2,
-    text: "step 2"
-  },
-  {
-    id: 3,
-    text: "step 3"
-  },{
-    id: 4,
-    text: "step 4"
-  },
-  {
-    id: 5,
-    text: "step 5"
-  }
-]
-
-
-function getSteps(step) {
-  return (
-    <StepCard
-      key={step.id}
-      step={step}
-    />
-  );
-}
-
-var App = React.createClass({
-
-  getDefaultProps: function() {
-    return {
-      stepData: []
-    }
-  },
-
-  render: function() {
-
-    var steps = this.props.stepData.map(getSteps);
-
-    return (
-      <ReactCardSteps>
-        {steps}
-      </ReactCardSteps>
-    );
-  }
-
-});
-
-React.renderComponent(
-    <App stepData={exampleSteps} />,
-    document.getElementById('react')
-);
+module.exports = ReactCardSteps;
