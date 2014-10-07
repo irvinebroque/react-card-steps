@@ -45,10 +45,16 @@ var ReactCardSteps = React.createClass({
 
   componentDidMount: function() {
     StepStore.addChangeListener(this._onChange);
+
+    this.hammer = new Hammer(this.getDOMNode());
+    this.hammer.on('swipeleft', this.next);
+    this.hammer.on('swiperight', this.prev);
+
   },
 
   componentWillUnmount: function() {
     StepStore.removeChangeListener(this._onChange);
+    this.hammer.off('swipeleft', this.swipeLeft);
   },
 
   render: function() {
@@ -60,6 +66,16 @@ var ReactCardSteps = React.createClass({
         {steps}
       </div>
     )
+  },
+
+  next: function(ev) {
+    console.log(ev);
+    console.log('i got swiped left, so i go to the next card!');
+  },
+
+  prev: function(ev) {
+    console.log(ev);
+    console.log('i got swiped right, so i go to the previous card!');
   },
 
   _onChange: function() {
