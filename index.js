@@ -2,19 +2,10 @@
  * @jsx React.DOM
  */
 
-var React = require('react');
+var React = require('react/addons');
 var merge = require('react/lib/merge');
 var EventEmitter = require('events').EventEmitter;
 var Hammer = require('hammerjs');
-
-function getSteps(step) {
-  return (
-    <Step
-      key={step.id}
-      step={step}
-    />
-  );
-}
 
 function getStateFromStores() {
   return {
@@ -36,16 +27,9 @@ var ReactCardSteps = React.createClass({
   displayName: 'ReactCardSteps',
 
   propTypes: {
-    stepData: React.PropTypes.array,
     next: React.PropTypes.func,
     prev: React.PropTypes.func,
     goto: React.PropTypes.func
-  },
-
-  getDefaultProps: function() {
-    return {
-      stepData: []
-    }
   },
 
   getInitialState: function() {
@@ -70,15 +54,18 @@ var ReactCardSteps = React.createClass({
 
   render: function() {
 
-    var steps = this.props.stepData.map(getSteps);
+    // need to get the # of steps from react.children.count here
+    // then need to push this # to the stepStore
 
-    return (
-      <div style={this.state.containerStyle}>
-        <div style={this.state.wrapperStyle}>
-          {steps}
-        </div>
-      </div>
+    var container = React.DOM.div({style: this.state.containerStyle},
+      React.DOM.div({style: this.state.wrapperStyle},
+        React.Children.map(this.props.children, function(child) {
+          return React.DOM.div({style: {display: "inline-block"}}, React.addons.cloneWithProps(child))
+        })
+      )
     )
+
+    return React.addons.cloneWithProps(container)
   },
 
   next: function(ev) {
@@ -97,21 +84,10 @@ var ReactCardSteps = React.createClass({
 
 });
 
-var Step = React.createClass({
-
-  displayName: 'Step',
-
-  propTypes: {
-    step: React.PropTypes.object
-  },
-
-  getDefaultProps: function() {
-    return {
-      stepData: {}
-    }
-  },
+var StepCard = React.createClass({
 
   render: function() {
+    console.log('this should get called when step card gets rendered');
     return (
       <div>
         this is a step
@@ -162,6 +138,12 @@ var StepStore = merge(EventEmitter.prototype, {
 
 });
 
+
+
+// -------------
+// Example Stuff
+// -------------
+
 var exampleSteps = [
   {
     id: 1,
@@ -184,7 +166,43 @@ var exampleSteps = [
   }
 ]
 
+
+function getSteps(step) {
+  console.log(step);
+  return (
+    <StepCard
+      key={step.id}
+      step={step}
+    />
+  );
+}
+
+var App = React.createClass({
+
+  getDefaultProps: function() {
+    return {
+      stepData: []
+    }
+  },
+
+  getInitialState: function() {
+    return getStateFromStores();
+  },
+
+  render: function() {
+
+    var steps = this.props.stepData.map(getSteps);
+
+    return (
+      <ReactCardSteps>
+        {steps}
+      </ReactCardSteps>
+    );
+  }
+
+});
+
 React.renderComponent(
-    <ReactCardSteps stepData={exampleSteps} />,
+    <App stepData={exampleSteps} />,
     document.getElementById('react')
 );
