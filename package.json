@@ -4,8 +4,9 @@
   "description": "Card-based interface for interactive step-by-step processes/guides",
   "main": "index.js",
   "dependencies": {
-    "react": "~0.11",
-    "events": "^1.0.2"
+    "events": "^1.0.2",
+    "hammerjs": "^2.0.4",
+    "react": "~0.11"
   },
   "devDependencies": {
     "browserify": "~4.2.2",

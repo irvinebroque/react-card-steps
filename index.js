@@ -5,6 +5,7 @@
 var React = require('react');
 var merge = require('react/lib/merge');
 var EventEmitter = require('events').EventEmitter;
+var Hammer = require('hammerjs');
 
 function getSteps(step) {
   return (
@@ -85,12 +86,13 @@ var Step = React.createClass({
     return (
       <div>
         this is a step
-        <button onClick={_nextStep}>next</button>
+        <button onClick={this.next}>next</button>
       </div>
     );
   },
 
   next: function(event) {
+    _nextStep();
     console.log('next was clicked');
   }
 
