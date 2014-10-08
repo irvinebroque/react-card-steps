@@ -1,6 +1,6 @@
 {
   "name": "react-card-steps",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Card-based interface for interactive step-by-step processes/guides",
   "main": "index.js",
   "dependencies": {
