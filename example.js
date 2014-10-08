@@ -3,7 +3,7 @@
  */
 
 var React = require('react/addons');
-var ReactCardSteps = require('./index');
+var CardSteps = require('./index');
 var StepActions = require('./StepActions');
 
 // -------------
@@ -79,9 +79,9 @@ var App = React.createClass({
 
     return (
       <div className="container">
-        <ReactCardSteps innerContainerClass="example-innerContainerClass">
+        <CardSteps innerContainerClass="example-innerContainerClass">
           {steps}
-        </ReactCardSteps>
+        </CardSteps>
       </div>
     );
   }

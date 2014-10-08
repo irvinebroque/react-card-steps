@@ -38,9 +38,9 @@ function getStateFromStores() {
   }
 }
 
-var ReactCardSteps = React.createClass({
+var CardSteps = React.createClass({
 
-  displayName: 'ReactCardSteps',
+  displayName: 'CardSteps',
 
   propTypes: {
     innerContainerClass: React.PropTypes.string
@@ -132,4 +132,4 @@ var ReactCardSteps = React.createClass({
 
 });
 
-module.exports = ReactCardSteps;
+module.exports = CardSteps;
