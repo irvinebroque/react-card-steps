@@ -33,7 +33,9 @@ function getStateFromStores() {
     },
     childStyle: {
       display: 'inline-block',
-      width: childWidth + '%'
+      width: childWidth + '% !important',
+      boxSizing: 'border-box',
+      verticalAlign: 'top'
     }
   }
 }
