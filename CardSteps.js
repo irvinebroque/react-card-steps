@@ -30,7 +30,7 @@ function getStateFromStores() {
       width: wrapperWidth + '%',
       transform: 'translateX(' + transformPosition + '%)',
       WebkitTransform: 'translateX(' + transformPosition + '%)',
-      transition: 'all ease-out 0.25s'
+      transition: 'all ease-out 0.25s',
       WebkitTransition: 'all ease-out 0.25s'
     },
     childStyle: {
