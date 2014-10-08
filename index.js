@@ -59,18 +59,25 @@ var ReactCardSteps = React.createClass({
     return getStateFromStores();
   },
 
+
   componentDidMount: function() {
     StepStore.addChangeListener(this._onChange);
 
-    this.hammer = new Hammer(this.getDOMNode());
+    this.hammer = new Hammer.Manager(this.getDOMNode());
+    this.hammer.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
+    this.hammer.add(new Hammer.Swipe()).recognizeWith(this.hammer.get('pan'));
+
     this.hammer.on('swipeleft', this.next);
     this.hammer.on('swiperight', this.prev);
+
+    this.hammer.on('panleft', this.drag);
 
   },
 
   componentWillUnmount: function() {
     StepStore.removeChangeListener(this._onChange);
     this.hammer.off('swipeleft', this.swipeLeft);
+    this.hammer.off('swiperight', this.swiperight);
 
     delete this.hammer;
   },
@@ -97,6 +104,19 @@ var ReactCardSteps = React.createClass({
 
   prev: function(ev) {
     StepActions.prevStep();
+  },
+
+  drag: function(ev) {
+
+    // console.log(this.hammer.element);
+
+    var foo = this.hammer.element.style;
+    foo.transform = 'translateX(' + ev.deltaX + ')';
+    console.log(foo.transform);
+
+    // this.setState({wrapperStyle.transform: 'translateX(' + ev.deltaX + '%)'});
+    // console.log(this.state.wrapperStyle.transform);
+    // console.log(ev.deltaX);
   },
 
   _onChange: function() {
