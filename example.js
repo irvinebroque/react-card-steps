@@ -3,8 +3,9 @@
  */
 
 var React = require('react/addons');
-var CardSteps = require('./index');
-var StepActions = require('./StepActions');
+var ReactCardSteps = require('./index');
+var CardSteps = ReactCardSteps.CardSteps;
+var StepActions = ReactCardSteps.StepActions;
 
 // -------------
 // Example Stuff
