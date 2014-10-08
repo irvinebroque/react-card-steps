@@ -22,11 +22,15 @@ function _setCurrentStep(stepNumber) {
 }
 
 function _nextStep() {
-  _currentStep += 1;
+  if (_currentStep < _steps.length) {
+    _currentStep += 1;
+  }
 }
 
 function _prevStep() {
-  _currentStep -= 1;
+  if (_currentStep > 1) {
+    _currentStep -= 1;
+  }
 }
 
 var StepStore = merge(EventEmitter.prototype, {
