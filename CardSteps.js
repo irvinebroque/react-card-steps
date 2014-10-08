@@ -29,9 +29,9 @@ function getStateFromStores() {
       // this should equal the # of steps times 100
       width: wrapperWidth + '%',
       transform: 'translateX(' + transformPosition + '%)',
-      -webkit-transform: 'translateX(' + transformPosition + '%)',
+      WebkitTransform: 'translateX(' + transformPosition + '%)',
       transition: 'all ease-out 0.25s'
-      -webkit-transition: 'all ease-out 0.25s'
+      WebkitTransition: 'all ease-out 0.25s'
     },
     childStyle: {
       display: 'inline-block',
