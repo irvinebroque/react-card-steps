@@ -2,7 +2,7 @@
   "name": "react-card-steps",
   "version": "0.0.1",
   "description": "Card-based interface for interactive step-by-step processes/guides",
-  "main": "example.js",
+  "main": "index.js",
   "dependencies": {
     "events": "^1.0.2",
     "flux": "^2.0.1",
@@ -18,7 +18,7 @@
     "watchify": "~0.10.2"
   },
   "scripts": {
-    "start": "watchify -o bundle.js -v -d .",
+    "start": "watchify example.js -o bundle.js -v -d .",
     "build": "NODE_ENV=production browserify . | uglifyjs -cm > bundle.min.js",
     "test": "jest"
   },
