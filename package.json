@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "browserify": "~4.2.2",
-    "envify": "~2.0.1",
     "jest-cli": "~0.1.17",
     "reactify": "~0.14.0",
     "uglify-js": "~2.4.15",
@@ -34,8 +33,7 @@
   "author": "Brendan Irvine-Broque",
   "browserify": {
     "transform": [
-      "reactify",
-      "envify"
+      "reactify"
     ]
   },
   "jest": {
