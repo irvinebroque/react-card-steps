@@ -6,6 +6,7 @@ var React = require('react/addons');
 var StepStore = require('./StepStore');
 var StepActions = require('./StepActions');
 var Hammer = require('hammerjs');
+var cx = React.addons.classSet;
 
 
 function getStateFromStores() {
@@ -21,8 +22,8 @@ function getStateFromStores() {
   return {
     currentStep: currentStep,
     stepCount: stepCount,
-    containerStyle: {
-      overflow: 'hidden'
+    outerContainerStyle: {
+      overflow: 'hidden',
     },
     wrapperStyle: {
       // this should equal the # of steps times 100
@@ -42,9 +43,13 @@ var ReactCardSteps = React.createClass({
   displayName: 'ReactCardSteps',
 
   propTypes: {
-    next: React.PropTypes.func,
-    prev: React.PropTypes.func,
-    goto: React.PropTypes.func
+    innerContainerClass: React.PropTypes.string
+  },
+
+  getDefaultProps: function() {
+    return {
+      innerContainerClass: '___innerContainerClass'
+    };
   },
 
   getInitialState: function() {
@@ -87,11 +92,13 @@ var ReactCardSteps = React.createClass({
     // Set local variable to the childStyle component state
     var childStyle = this.state.childStyle;
 
-    var container = React.DOM.div({style: this.state.containerStyle},
-      React.DOM.div({style: this.state.wrapperStyle},
-        React.Children.map(this.props.children, function(child) {
-          return React.DOM.div({style: childStyle}, React.addons.cloneWithProps(child))
-        })
+    var container = React.DOM.div({style: this.state.outerContainerStyle},
+      React.DOM.div({className: this.props.innerContainerClass},
+        React.DOM.div({style: this.state.wrapperStyle},
+          React.Children.map(this.props.children, function(child) {
+            return React.DOM.div({style: childStyle}, React.addons.cloneWithProps(child))
+          })
+        )
       )
     );
 

@@ -78,9 +78,11 @@ var App = React.createClass({
     var steps = this.props.stepData.map(getSteps);
 
     return (
-      <ReactCardSteps>
-        {steps}
-      </ReactCardSteps>
+      <div className="container">
+        <ReactCardSteps innerContainerClass="example-innerContainerClass">
+          {steps}
+        </ReactCardSteps>
+      </div>
     );
   }
 
