@@ -38,7 +38,7 @@ var StepCard = React.createClass({
     return (
       <div>
         <div className="exampleCard">
-          this is a step
+          <span className="exampleCard-text">{this.props.step.text}</span>
           <button onClick={this.prev}>previous</button>
           <button onClick={this.next}>next</button>
         </div>
