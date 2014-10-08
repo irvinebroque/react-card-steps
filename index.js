@@ -28,7 +28,7 @@ function getStateFromStores() {
       // this should equal the # of steps times 100
       width: wrapperWidth + '%',
       transform: 'translateX(' + transformPosition + '%)',
-      transition: 'all 2s'
+      transition: 'all ease-out 0.25s'
     },
     childStyle: {
       display: 'inline-block',
@@ -54,7 +54,6 @@ var ReactCardSteps = React.createClass({
     // then need to push this # to the stepStore using an action
     StepActions.setTotalSteps(stepCount);
     // var foo = StepStore.getStepCount();
-    // console.log(foo);
     this.setState({totalSteps: stepCount});
 
     return getStateFromStores();
@@ -93,13 +92,11 @@ var ReactCardSteps = React.createClass({
   },
 
   next: function(ev) {
-    console.log(ev);
-    console.log('i got swiped left, so i go to the next card!');
+    StepActions.nextStep();
   },
 
   prev: function(ev) {
-    console.log(ev);
-    console.log('i got swiped right, so i go to the previous card!');
+    StepActions.prevStep();
   },
 
   _onChange: function() {

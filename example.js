@@ -37,15 +37,21 @@ var StepCard = React.createClass({
   render: function() {
     return (
       <div>
-        this is a step
-        <button onClick={this.next}>next</button>
+        <div className="exampleCard">
+          this is a step
+          <button onClick={this.prev}>previous</button>
+          <button onClick={this.next}>next</button>
+        </div>
       </div>
     );
   },
 
   next: function(event) {
-    console.log('next was clicked');
     StepActions.nextStep();
+  },
+
+  prev: function(event) {
+    StepActions.prevStep();
   }
 
 });

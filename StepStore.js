@@ -14,7 +14,6 @@ function _setTotalSteps(count) {
   for (var i = 0; i < count; i++) {
     _steps[i] = i;
   }
-  console.log(_steps);
   return _steps;
 }
 
@@ -60,13 +59,14 @@ var StepStore = merge(EventEmitter.prototype, {
 StepStore.dispatchToken = StepDispatcher.register(function(payload) {
   var action = payload.action;
 
-  console.log(action);
-
   if (action === 'STEP_SET_TOTAL') {
     _setTotalSteps(payload.stepCount);
     StepStore.emitChange();
   } else if (action === 'STEP_NEXT') {
     _nextStep();
+    StepStore.emitChange();
+  } else if (action === 'STEP_PREV') {
+    _prevStep();
     StepStore.emitChange();
   } else {
     console.log("did nothing. i'm lazy")
